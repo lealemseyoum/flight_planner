@@ -270,9 +270,10 @@ class FlightPlanner:
         self.compute()
 
 def main():
-    camera = Camera(f=3.98,pixel_size = 3.75e-6,image_size=(1280,960))
+    flir = Camera(f=3.98,pixel_size = 3.75e-6,image_size=(800,600))
+    senop = Camera(f=3.28, pixel_size = 5.5e-6, image_size=(1024,1024))
 
-    plan = FlightPlanner(camera,height = 106.1333)
+    plan = FlightPlanner(senop,height = 1.5)
     plan.compute()
     print(plan._plan)
 
