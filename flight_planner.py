@@ -120,6 +120,41 @@ class Camera:
     def focal_length(self):
         return self._parameters.get('f',None)
 
+    @property
+    def name(self):
+        return self._parameters.get('name',None)
+    
+    @property
+    def max_fps(self):
+        return self._parameters.get('max_fps',None)
+
+    @max_fps.setter
+    def fps(self,fps):
+        self._parameters['fps'] = fps 
+
+    @property
+    def exposure(self):
+        return self._parameters.get('exposure',None)
+    
+    @exposure.setter
+    def exposure(self,exposure):
+        fps = self._parameters.get('max_fps')
+        if (fps != None) & (exposure < 1/fps): 
+            self._parameters['exposure'] = exposure 
+        elif fps == None:
+            self.max_fps = 1/exposure
+            self._parameters['exposure'] = exposure 
+        else: 
+            print("Exposure exceeds maximum fps")
+
+            
+
+        self._parameters['exposure'] = exposure
+
+    @name.setter
+    def name(self,name):
+        self._parameters['name'] = name
+
     @focal_length.setter
     def focal_length(self,f):
         self._parameters['f'] = f
@@ -167,10 +202,16 @@ class FlightPlanner:
         self._plan["ground_area"] = area
 
     def calculate_base(self):
+        """
+        Computes base distance between successive shots (m)
+        """
         B = self._plan.get('swath')[1] * (1-(self._plan.get('forward_overlap')/100))
         self._plan['base_length'] = B    
 
     def calculate_strip_offset(self):
+        """
+        Computes offset between adjacent strips (m)
+        """
         A = self._plan.get('swath')[0] * (1-(self._plan.get('side_overlap')/100))
         self._plan['strip_offset'] = A
 
@@ -197,6 +238,16 @@ class FlightPlanner:
         h = self._plan.get('photo_scale')  *self._cam.focal_length/1000
         self._plan['height'] = h
 
+    def calculate_blur(self,speed):
+        """
+        @TODO 
+        Calculates pixel blur based on platform speed.
+
+        Parameters:
+            speed:  platform speed (m/s)
+        """
+        pass
+
     def compute(self):
         """
         Computes all flight parameters. 
@@ -209,7 +260,7 @@ class FlightPlanner:
 
         # forward and side overlap are mandatory for the flight plan
 
-        if(self._plan.get('forward') == None):
+        if(self._plan.get('forward_overlap') == None):
             self._plan['forward_overlap'] = 60
 
         if (self._plan.get('side_overlap') == None):
@@ -269,13 +320,33 @@ class FlightPlanner:
         self._plan['gsd'] = gsd
         self.compute()
 
-def main():
-    flir = Camera(f=3.98,pixel_size = 3.75e-6,image_size=(800,600))
-    senop = Camera(f=3.28, pixel_size = 5.5e-6, image_size=(1024,1024))
+    @property 
+    def side_overlap(self):
+        return self._plan.get("side_overlap",None)
 
-    plan = FlightPlanner(senop,height = 1.5)
-    plan.compute()
-    print(plan._plan)
+    @side_overlap.setter
+    def side_overlap(self,so):
+        self._plan['side_overlap'] = so
+        self.compute()
+
+    @property
+    def forward_overlap(self):
+        return self._plan.get("forward_overlap",None)
+
+    @forward_overlap.setter
+    def forward_overlap(self,fo):
+        self._plan['forward_overlap'] = fo
+        self.compute()
+
+
+def main():
+    flir = Camera(f=3.98,pixel_size = 3.75e-6,image_size=(800,600),name="Flir")
+    senop = Camera(f=3.28, pixel_size = 5.5e-6, image_size=(1024,1024),name="Senop")
+
+    flir_plan = FlightPlanner(flir,height = 1.5,side_overlap=60,forward_overlap=80)
+
+    flir_plan.compute()
+    print(flir_plan._cam.name,flir_plan._plan)
 
 
 if __name__=="__main__":
