@@ -1,7 +1,14 @@
-#!/home/lms/miniconda3/envs/math310/bin/python
+#!/bin/python3
 
 import math
 import numpy as np
+import json
+
+class NumpyEncoder(json.JSONEncoder):
+    def default(self,obj):
+        if isinstance(obj,np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self,obj)
 
 
 """
@@ -294,13 +301,15 @@ class FlightPlanner:
 
     def write(self,format="yaml"):
         """
-        Writes flight parameters in JSON/YAML/XML format.
+        Writes flight parameters in JSON format.
 
         Parameters:
             format:     Serializtion format
 
         """
-        pass
+        data = [self._cam.__dict__,self._plan]
+        with open(self._cam.name + ".json","w") as jsonfile:
+            json.dump(data, jsonfile,indent=4,cls=NumpyEncoder)
 
     @property
     def height(self):
@@ -338,16 +347,21 @@ class FlightPlanner:
         self._plan['forward_overlap'] = fo
         self.compute()
 
-
+    
 def main():
     flir = Camera(f=3.98,pixel_size = 3.75e-6,image_size=(800,600),name="Flir")
     senop = Camera(f=3.28, pixel_size = 5.5e-6, image_size=(1024,1024),name="Senop")
 
-    flir_plan = FlightPlanner(flir,height = 1.5,side_overlap=60,forward_overlap=80)
+    flir_plan = FlightPlanner(flir,height = 1.0,side_overlap=60,forward_overlap=80)
+    senop_plan = FlightPlanner(senop,height =1.5, side_overlap=60, forward_overlap=80)
 
     flir_plan.compute()
+    senop_plan.compute()
+
     print(flir_plan._cam.name,flir_plan._plan)
+    print(senop_plan._cam.name,senop_plan._plan)
 
-
+    flir_plan.write()
+    senop_plan.write()
 if __name__=="__main__":
     main()
