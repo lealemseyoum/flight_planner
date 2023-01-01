@@ -1,0 +1,31 @@
+[
+    {
+        "_parameters": {
+            "image_size": [
+                1280,
+                960
+            ],
+            "name": "sequoia",
+            "pixel_size": 3.75e-06,
+            "sensor_size": [
+                0.0048000000000000004,
+                0.0036
+            ],
+            "f": 3.98
+        }
+    },
+    {
+        "height": 90,
+        "forward_overlap": 85,
+        "side_overlap": 85,
+        "base_length": 12.21105527638191,
+        "gsd": 8.479899497487438,
+        "swath": [
+            108.5427135678392,
+            81.40703517587939
+        ],
+        "photo_scale": 22613.065326633165,
+        "strip_offset": 16.28140703517588,
+        "ground_area": 8836.140501502487
+    }
+]

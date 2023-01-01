@@ -194,7 +194,6 @@ class FlightPlanner:
         """
 
         # forward and side overlap are mandatory for the flight plan
-
         if(self._plan.get('forward_overlap') == None):
             self._plan['forward_overlap'] = 60
 
@@ -236,7 +235,7 @@ class FlightPlanner:
 
         """
         data = [self._cam.__dict__,self._plan]
-        with open(self._cam.name + ".json","w") as jsonfile:
+        with open(self._cam.name + "_" + str(self._plan["height"]) + ".json","w") as jsonfile:
             json.dump(data, jsonfile,indent=4,cls=NumpyEncoder)
 
     @property
