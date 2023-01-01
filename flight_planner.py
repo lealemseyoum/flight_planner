@@ -11,78 +11,6 @@ class NumpyEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self,obj)
 
 
-"""
-Collection of Photogrammetric flight planning functions.
-
-Symbols:
-    A   - Distance between flight lines/strips          (m)
-    B   - Base distance between consecutive images      (m)
-    h   - Flying height abobe ground                    (m)
-    Z   - Ground height                                 (m)
-    v   - Flying speed over ground                      (m/s)
-    L   - Length of a strip/block                       (m)
-    Q   - Width of block                                (m)
-    m   - Photo scale number                            (unitless)
-    f   - focal length/principal distance               (px)
-    s   - image width                                   (px)
-    S   - swath (image width on the gruond)             (m)
-    cx  - x-coordinate of principal point               (px)
-    cy  - y-coordinate of principal point
-
-"""
-
-
-def photo_scale_number(h,f ):
-    return h/f
-
-
-def image_side_ground(h,c,s):
-    return s * photo_scale_number(h,c)
-
-def base_in_photo(h,c,B):
-    return B/photo_scale_number(h,c)
-
-def flying_height_agl(c,m_b):
-    return c*m_b
-
-def absolute_flying_height(h,Z):
-    return h+Z
-
-def forward_overlap(h,c,s,B):
-    m_b = photo_scale_number(h,c)
-    S = image_side_ground(h,c,s)
-    return (1-(B/S))*100
-
-def side_overlap(h,c,s,A):
-    S = image_side_ground(h,c,s)
-    return (1-(A/S))*100
-
-def photo_ground_area(h,c,s):
-    m_b = photo_scale_number(h,c)
-    return s^2 * m_b^2
-
-def base_length_():
-    pass
-
-def strip_distance():
-    pass
-
-def models_in_stip():
-    pass
-
-def photogs_in_strip():
-    pass
-
-def strips_in_block():
-    pass
-
-def stereoscopic_model_area():
-    pass
-
-def time_interval():
-    pass
-
-
 class Camera:
     def __init__(self,**kwargs):
         """
@@ -349,19 +277,7 @@ class FlightPlanner:
 
     
 def main():
-    flir = Camera(f=3.98,pixel_size = 3.75e-6,image_size=(800,600),name="Flir")
-    senop = Camera(f=3.28, pixel_size = 5.5e-6, image_size=(1024,1024),name="Senop")
+    pass
 
-    flir_plan = FlightPlanner(flir,height = 1.0,side_overlap=60,forward_overlap=80)
-    senop_plan = FlightPlanner(senop,height =1.5, side_overlap=60, forward_overlap=80)
-
-    flir_plan.compute()
-    senop_plan.compute()
-
-    print(flir_plan._cam.name,flir_plan._plan)
-    print(senop_plan._cam.name,senop_plan._plan)
-
-    flir_plan.write()
-    senop_plan.write()
 if __name__=="__main__":
     main()

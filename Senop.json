@@ -1,13 +1,13 @@
 [
     {
         "_parameters": {
-            "f": 3.28,
             "pixel_size": 5.5e-06,
+            "f": 3.28,
+            "name": "Senop",
             "image_size": [
                 1024,
                 1024
             ],
-            "name": "Senop",
             "sensor_size": [
                 0.005632,
                 0.005632
@@ -15,17 +15,17 @@
         }
     },
     {
-        "height": 1.5,
-        "side_overlap": 60,
-        "forward_overlap": 80,
-        "photo_scale": 457.3170731707317,
         "swath": [
             2.575609756097561,
             2.575609756097561
         ],
-        "gsd": 0.25152439024390244,
-        "base_length": 0.5151219512195121,
+        "forward_overlap": 80,
+        "ground_area": 6.633765615704938,
         "strip_offset": 1.0302439024390244,
-        "ground_area": 6.633765615704938
+        "base_length": 0.5151219512195121,
+        "side_overlap": 60,
+        "photo_scale": 457.3170731707317,
+        "height": 1.5,
+        "gsd": 0.25152439024390244
     }
 ]

@@ -1,13 +1,13 @@
 [
     {
         "_parameters": {
-            "f": 3.98,
             "pixel_size": 3.75e-06,
+            "f": 3.98,
+            "name": "Flir",
             "image_size": [
                 800,
                 600
             ],
-            "name": "Flir",
             "sensor_size": [
                 0.003,
                 0.0022500000000000003
@@ -15,17 +15,17 @@
         }
     },
     {
-        "height": 1.0,
-        "side_overlap": 60,
-        "forward_overlap": 80,
-        "photo_scale": 251.25628140703517,
         "swath": [
             0.7537688442211056,
             0.5653266331658292
         ],
-        "gsd": 0.09422110552763821,
-        "base_length": 0.11306532663316582,
+        "forward_overlap": 80,
+        "ground_area": 0.426125602888816,
         "strip_offset": 0.30150753768844224,
-        "ground_area": 0.426125602888816
+        "base_length": 0.11306532663316582,
+        "side_overlap": 60,
+        "photo_scale": 251.25628140703517,
+        "height": 1.0,
+        "gsd": 0.09422110552763821
     }
 ]
