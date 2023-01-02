@@ -4,6 +4,7 @@ import flight_planner as fp
 Example for calculating flight parameters for different flying heights
 '''
 
+# Height above ground level
 height_agl = (60,90,120)
 
 for h in height_agl:
